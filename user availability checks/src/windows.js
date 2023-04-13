@@ -1,31 +1,29 @@
-const
-    iconv = require('iconv-lite'),
-    { exec } = require('child_process')
+const iconv = require('iconv-lite');
+const { exec } = require('child_process');
 
-// Выполнить команду net user
-const exec_netUser = (callback) => {
-    exec('net user', { encoding: "buffer" },
-        (error, stdout, stderr) => {
-            if (error) {
-                callback(stderr, null)
-            } else {
-                callback(null, iconv.decode(stdout, 'CP866'))
-            }
-        }
-    );
-}
+const getUsers = (cb) => {
+  exec('net user', { encoding: 'buffer' }, (error, stdout, stderr) => {
+    if (error) {
+      cb(stderr, null);
+    } else {
+      const decodedOutput = iconv.decode(stdout, 'CP866');
+      const users = decodedOutput
+        .slice(decodedOutput.lastIndexOf('-') + 1)
+        .match(/([A-Za-zА-Яа-я0-9_]+)/g);
+      cb(null, users);
+    }
+  });
+};
 
-// Создать массив со списком пользователей
-const usersTable = (callback) => (exec_netUser((err, res) => {
+const getUsersTable = (callback) => {
+  getUsers((err, users) => {
     if (err) {
-        console.log(`Error: ${err}`)
+      console.log(`Error: ${err}`);
+    } else {
+      callback(users);
     }
-    else {
-        callback(res
-            .slice(res.lastIndexOf('-') + 1)
-            .match(/([A-Za-zА-Яа-я0-9_]+)/g)
-        )
-    }
-}))
+  });
+};
 
-module.exports = usersTable
+module.exports = getUsersTable;
+
