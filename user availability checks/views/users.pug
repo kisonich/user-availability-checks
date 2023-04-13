@@ -1,17 +1,14 @@
 doctype html
 html(lang="ru")
 head
-    title #{title}
-    meta(charset='UTF-8')
-    link(rel='stylesheet', href='/css/styles.css')
+  title=title
+  meta(charset='UTF-8')
+  link(rel='stylesheet', href='/css/styles.css')
 body
-    div.content
-        if value === -1
-            if name
-                p Пользователя #{name} нет
-            else
-                p Вы не ввели имя пользователя
-        else
-            p Пользователь #{name} есть
-        .btn
-            button(type='button' class='btn-back' onclick='history.back()') Назад
+  div.content
+    if value === -1
+      p(class='error-message') #{(name ? 'Пользователя ' + name : 'Вы не ввели имя пользователя')} не существует
+    else
+      p(class='success-message') Пользователь #{name} успешно добавлен
+    .btn
+      button.btn-back(type='button', onclick='history.back()') Вернуть
