@@ -1,35 +1,32 @@
-const
-    usersTable = require('./src/windows'),
-    path = require('path'),
-    express = require('express')
+const users = require('./src/windows');
+const path = require('path');
+const express = require('express');
 
-const app = express()
+const app = express();
+const port = process.env.PORT || 3000;
 
-app.set('views', path.join(__dirname, 'views'))
-app.use(express.static(path.join(__dirname, 'public')))
+// Настройка middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
-app.set('view engine', 'pug')
+// Главная страница
+app.get('/', (req, res) => {
+  res.render('index', { title: 'Веб-приложение' });
+});
 
-app.use(express.urlencoded({ extended: true }))
+// Обработка формы пользователей
+app.post('/users', (req, res) => {
+  const name = req.body.name;
+  users((data) => {
+    const value = data.includes(name) ? 0 : -1;
+    const message = `${name} ${(value === -1) ? 'не найден' : 'найден'}`;
+    res.render('users', { title: `Пользователь ${name}`, name, value, message });
+  });
+});
 
-app.route('/').get((req, res) => {
-    res.render('index', {
-        'title': 'Веб-приложение'
-    })
-})
-
-app.route('/users').post((req, res) => {
-    let name = req.body.name
-
-    usersTable((userName) => {
-        res.render('users', {
-            'title': `Пользователь ${name}`,
-            'value': userName.indexOf(name),
-            'name': name
-        })
-    })
-})
-
-const server = app.listen(process.argv[2], () => {
-    console.log(`Приложение запущено на http://localhost:${server.address().port}`)
-})
+// Запуск сервера
+app.listen(port, () => {
+  console.log(`Приложение запущено на http://localhost:${port}`);
+});
