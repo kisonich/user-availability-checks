@@ -1,35 +1,34 @@
 html {
-    height: 100%;
-    background-color: #cfffc4;
+  height: 100%;
+  background-color: salmon;
 }
 
 * {
-    font-family: 'Lucida Sans Unicode', sans-serif;
+  font-family: 'Lucida Sans Unicode', sans-serif;
 }
 
 .content {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #d6d0cb;
-
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
 }
 
-form .item {
-    padding: 10px;
-    margin: 2px;
-    border: 1px solid #9e4f09;
-    border-radius: 1px;
+form input.item {
+  padding: 10px;
+  margin: 2px;
+  border: 1px solid #e5e6ec;
+  border-radius: 1px;
 }
 
 button.item {
-    color: #2e367a;
-    background-color: #9e4f09;
-    font-weight: bold;
+  color: #2e367a;
+  background-color: #e5e6ec;
+  font-weight: bold;
 }
 
 .btn {
-   display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
