@@ -1,11 +1,13 @@
+``pug
 doctype html
 html(lang="ru")
 head
-    title #{title}
-    meta(charset='UTF-8')
-    link(rel='stylesheet', href='/css/styles.css')
+  title=title
+  meta(charset='UTF-8')
+  link(rel='stylesheet', href='/css/styles.css')
 body
-    div.content
-        form&attributes({'method': 'post', 'action': '/users'})
-            input.item&attributes({'type': 'text', 'name': 'name', 'placeholder': 'Пользователь'})
-            button.item&attributes({'type': 'submit'}) Проверить
+  div.content
+    form(method='post', action='/users')
+      label(for='username') Введите имя пользователя
+      input#username(type='text', name='username', placeholder='Имя пользователя')
+      button(type='submit') Проверить
